@@ -1,0 +1,57 @@
+﻿@model IEnumerable<CRM.Models.Order>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Заказы</h1>
+
+<p>
+    <a asp-action="Create">Создать новый заказ</a>
+</p>
+@if(Model == null || Model.Count() == 0)
+{
+    <div>Нет заказов</div>
+}
+else
+{
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+                Название заказа
+            </th>
+            <th>
+                Статус
+            </th>
+            <th>
+                Дата
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    
+        <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Информация</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+    
+</table>
+}
+
