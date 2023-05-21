@@ -35,7 +35,7 @@ namespace CRM.Controllers
             //    return NotFound();
             //}
 
-            var user = await _context.User.FindAsync(1);
+            var user = await _context.Users.FindAsync(1);
             HttpContext.Session.SetString(SessionName, "Adam!");
             //var user2 = await _context.User.FirstAsync(m => m.Id == 1);
             if (user == null)

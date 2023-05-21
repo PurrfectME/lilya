@@ -24,9 +24,9 @@ namespace CRM.Controllers
         [Authorize]
         public async Task<IActionResult> Index(string filter)
         {
-            var user = await _context.User.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
             ViewBag.userId = user.Id;
-            List<Company> companiesList = _context.Company.ToList();
+            List<Company> companiesList = _context.Companys.ToList();
             string[] companies = new string[companiesList[companiesList.Count - 1].Id + 1];
             var i = 1;
             foreach (var item in companiesList)
@@ -35,7 +35,7 @@ namespace CRM.Controllers
                 companies[i] = Convert.ToString(item.Name);
             }
             ViewBag.data = companies;
-            List<User> usersList = _context.User.ToList();
+            List<User> usersList = _context.Users.ToList();
             string[] users = new string[usersList[usersList.Count - 1].Id + 1];
             var j = 1;
             foreach (var item in usersList)
@@ -44,7 +44,7 @@ namespace CRM.Controllers
                 users[j] = item.Login;
             }
             ViewBag.data2 = users;
-            var qry = _context.Contact.AsNoTracking().OrderBy(p => p.Id).AsQueryable();
+            var qry = _context.Contacts.AsNoTracking().OrderBy(p => p.Id).AsQueryable();
             if (!string.IsNullOrWhiteSpace(filter))
             {
                 qry = qry.Where(p => p.Surname.Contains(filter));
@@ -63,13 +63,13 @@ namespace CRM.Controllers
                 return NotFound();
             }
 
-            var contact = await _context.Contact
+            var contact = await _context.Contacts
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (contact == null)
             {
                 return NotFound();
             }
-            List<Company> companiesList = _context.Company.ToList();
+            List<Company> companiesList = _context.Companys.ToList();
             string[] companies = new string[companiesList[companiesList.Count - 1].Id + 1];
             var i = 1;
             foreach (var item in companiesList)
@@ -78,7 +78,7 @@ namespace CRM.Controllers
                 companies[i] = item.Name;
             }
             ViewBag.data = companies;
-            List<User> usersList = _context.User.ToList();
+            List<User> usersList = _context.Users.ToList();
             string[] users = new string[usersList[usersList.Count - 1].Id + 1];
             var j = 1;
             foreach (var item in usersList)
@@ -87,7 +87,7 @@ namespace CRM.Controllers
                 users[j] = item.Login;
             }
             ViewBag.data2 = users;
-            var user = await _context.User.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
             ViewBag.userId = user.Id;
             return View(contact);
         }
@@ -97,14 +97,14 @@ namespace CRM.Controllers
         public async Task<IActionResult> CreateAsync(int? com)
         {
             ViewBag.id = com;
-            var user = await _context.User.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
-            var company = await _context.Company.FindAsync(com);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
+            var company = await _context.Companys.FindAsync(com);
             if (company != null)
             {
                 ViewBag.name = company.Name;
             }
             ViewBag.user = user.Id;
-            List<Company> companiesList = _context.Company.ToList();
+            List<Company> companiesList = _context.Companys.ToList();
             ViewBag.data = companiesList;
             return View();
         }
@@ -135,13 +135,13 @@ namespace CRM.Controllers
                 return NotFound();
             }
 
-            var contact = await _context.Contact.FindAsync(id);
-            var user = await _context.User.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
+            var contact = await _context.Contacts.FindAsync(id);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
             if (contact == null)
             {
                 return NotFound();
             }
-            List<Company> companiesList = _context.Company.ToList();
+            List<Company> companiesList = _context.Companys.ToList();
             ViewBag.data = companiesList;
             if (user.Id != contact.UserId)
             {
@@ -194,9 +194,9 @@ namespace CRM.Controllers
                 return NotFound();
             }
 
-            var contact = await _context.Contact
+            var contact = await _context.Contacts
                 .FirstOrDefaultAsync(m => m.Id == id);
-            var user = await _context.User.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
             if (contact == null)
             {
                 return NotFound();
@@ -205,7 +205,7 @@ namespace CRM.Controllers
             {
                 return NotFound();
             }
-            List<Company> companiesList = _context.Company.ToList();
+            List<Company> companiesList = _context.Companys.ToList();
             string[] companies = new string[companiesList[companiesList.Count - 1].Id + 1];
             var i = 1;
             foreach (var item in companiesList)
@@ -214,7 +214,7 @@ namespace CRM.Controllers
                 companies[i] = item.Name;
             }
             ViewBag.data = companies;
-            List<User> usersList = _context.User.ToList();
+            List<User> usersList = _context.Users.ToList();
             string[] users = new string[usersList[usersList.Count - 1].Id + 1];
             var j = 1;
             foreach (var item in usersList)
@@ -232,7 +232,7 @@ namespace CRM.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var contact = await _context.Contact.FindAsync(id);
+            var contact = await _context.Contacts.FindAsync(id);
             contact.IsDeleted = 1;
             //_context.Contact.Remove(contact);
             await _context.SaveChangesAsync();
@@ -241,7 +241,7 @@ namespace CRM.Controllers
 
         private bool ContactExists(int id)
         {
-            return _context.Contact.Any(e => e.Id == id);
+            return _context.Contacts.Any(e => e.Id == id);
         }
     }
 }

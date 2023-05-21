@@ -24,7 +24,7 @@ namespace CRM.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Role.ToListAsync());
+            return View(await _context.Roles.ToListAsync());
         }
 
         // GET: Roles/Details/5
@@ -36,11 +36,11 @@ namespace CRM.Controllers
                 return NotFound();
             }
 
-            var role = await _context.Role
+            var role = await _context.Roles
                 .FirstOrDefaultAsync(m => m.Id == id);
             //var user = await _context.User.ToListAsync(m => m.IdRole == role.Id);
-            var user = await _context.User.Where(m => m.RoleId == role.Id).ToListAsync();
-            var loggedUser = await _context.User.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
+            var user = await _context.Users.Where(m => m.RoleId == role.Id).ToListAsync();
+            var loggedUser = await _context.Users.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
             ViewBag.userId = loggedUser.Id;
             if (role == null)
             {

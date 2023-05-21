@@ -24,7 +24,7 @@ namespace CRM.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Business.ToListAsync());
+            return View(await _context.Businesses.ToListAsync());
         }
 
         // GET: Business/Details/5
@@ -36,10 +36,10 @@ namespace CRM.Controllers
                 return NotFound();
             }
 
-            var business = await _context.Business
+            var business = await _context.Businesses
                 .FirstOrDefaultAsync(m => m.Id == id);
             //var user = await _context.User.ToListAsync(m => m.IdRole == role.Id);
-            var company = await _context.Company.Where(m => m.BusinessId == business.Id).ToListAsync();
+            var company = await _context.Companys.Where(m => m.BusinessId == business.Id).ToListAsync();
             if (business == null)
             {
                 return NotFound();

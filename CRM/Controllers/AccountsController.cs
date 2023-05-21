@@ -33,7 +33,7 @@ namespace CRM.Controllers
         [Authorize]
         public async Task<ActionResult> DetailsAsync()
         {
-            var user = await _context.User.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
             if (user == null)
             {
                 return NotFound();
@@ -53,9 +53,10 @@ namespace CRM.Controllers
         private async Task<bool> ValidateLoginAsync(string userName, string password)
         {
             // For this sample, all logins are successful.
-            var user = await _context.User.FirstOrDefaultAsync(m => m.Login == userName);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == userName);
             try
             {
+                if (user == null) return false;
                 if (password == user.Password && user.IsDeleted == 0)
                 {
                     return true;
@@ -72,19 +73,20 @@ namespace CRM.Controllers
 
         private async Task<string> ReturnRole(string userName)
         {
-            var user = await _context.User.FirstOrDefaultAsync(m => m.Login == userName);
-            var role = await _context.Role.FindAsync(Convert.ToInt32(user.RoleId));
-            return role.Name;
-            //if(user.RoleId == "1")
-            //{
-            //    return "Admin";
-            //} else if(user.RoleId == "2")
-            //{
-            //    return "Moderator";
-            //} else
-            //{
-            //    return "User";
-            //}
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == userName);
+            //var role = await _context.Roles.FindAsync(Convert.ToInt32(user.RoleId));
+            if (user.RoleId == 1)
+            {
+                return "Admin";
+            }
+            else if (user.RoleId == 2)
+            {
+                return "Moderator";
+            }
+            else
+            {
+                return "User";
+            }
         }
 
 
@@ -139,8 +141,8 @@ namespace CRM.Controllers
         {
             try
             {
-                var user1 = await _context.User.FirstOrDefaultAsync(m => m.Login == user.Login);
-                if (user1.Id == 0)
+                var user1 = await _context.Users.FirstOrDefaultAsync(m => m.Login == user.Login);
+                if (user1 == null)
                 {
                     if (ModelState.IsValid)
                     {
@@ -178,7 +180,7 @@ namespace CRM.Controllers
         [Authorize]
         public async Task<IActionResult> Edit()
         {
-            var user = await _context.User.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
 
             if (user == null)
             {
@@ -199,7 +201,7 @@ namespace CRM.Controllers
             {
                 return NotFound();
             }
-            var adminnumber = await _context.User.CountAsync(m => m.RoleId == 1);
+            var adminnumber = await _context.Users.CountAsync(m => m.RoleId == 1);
             ViewBag.Message = null;
 
 
@@ -334,7 +336,7 @@ namespace CRM.Controllers
 
         private bool UserExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.Id == id);
         }
 
         public string HashPassword(string password)
@@ -361,7 +363,7 @@ namespace CRM.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
+            var user = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
@@ -376,8 +378,8 @@ namespace CRM.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.User.FindAsync(id);
-            var adminnumber = await _context.User.CountAsync(m => m.RoleId == 1);
+            var user = await _context.Users.FindAsync(id);
+            var adminnumber = await _context.Users.CountAsync(m => m.RoleId == 1);
             //Console.Write(adminnumber);
             ViewBag.Message = null;
             if (adminnumber > 2 || user.RoleId != 1)
@@ -451,7 +453,7 @@ namespace CRM.Controllers
             }
             else { 
             //var user = await _context.User.FindAsync(id);
-            var user1 = await _context.User.FirstOrDefaultAsync(m => m.Login == login);
+            var user1 = await _context.Users.FirstOrDefaultAsync(m => m.Login == login);
             if (user1 == null)
             {
                 return 2;

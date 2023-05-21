@@ -10,12 +10,12 @@ namespace CRM.Data
         {
         }
 
-        public DbSet<User> User { get; set; }
-        public DbSet<CRM.Models.Role> Role { get; set; }
-        public DbSet<CRM.Models.Business> Business { get; set; }
-        public DbSet<CRM.Models.Company> Company { get; set; }
-        public DbSet<CRM.Models.Note> Note { get; set; }
-        public DbSet<CRM.Models.Contact> Contact { get; set; }
-
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Business> Businesses { get; set; }
+        public DbSet<Company> Companys { get; set; }
+        public DbSet<Note> Notes { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Order> Orders { get; set; }
     }
 }

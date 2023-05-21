@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,12 +29,12 @@ namespace CRM.Controllers
         public async Task<IActionResult> Index(DateTime? start, DateTime? end, string category, int[] selected, int page = 1, string sortExpression = "Id")
         {
             //var qry = _context.Company.AsNoTracking().OrderBy(p => p.Id);
-            var qry = _context.Company.AsNoTracking().OrderBy(p => p.Id).AsQueryable().Where(p => p.IsDeleted == 0);
-            var qry1 = _context.Business.AsNoTracking().OrderBy(p => p.Id).AsQueryable();
+            var qry = _context.Companys.AsNoTracking().OrderBy(p => p.Id).AsQueryable().Where(p => p.IsDeleted == 0);
+            var qry1 = _context.Businesses.AsNoTracking().OrderBy(p => p.Id).AsQueryable();
             //Console.WriteLine(start?.ToString("yyyy-MM-dd"));
             //Console.WriteLine(end?.ToString("yyyy-MM-dd"));
             //Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd"));
-            var user = await _context.User.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
             ViewBag.start = start?.ToString("yyyy-MM-dd");
             ViewBag.end = end?.ToString("yyyy-MM-dd");
             ViewBag.userId = user.Id;
@@ -92,21 +92,21 @@ namespace CRM.Controllers
                 {
                     if (end != null)
                     {
-                        qry = _context.Company.Where(p => data.Contains(p.BusinessId) && p.CreationDate >= start && p.CreationDate <= end);
+                        qry = _context.Companys.Where(p => data.Contains(p.BusinessId) && p.CreationDate >= start && p.CreationDate <= end);
                     } else
                     {
-                        qry = _context.Company.Where(p => data.Contains(p.BusinessId) && p.CreationDate >= start);
+                        qry = _context.Companys.Where(p => data.Contains(p.BusinessId) && p.CreationDate >= start);
 
                     }
                 } else
                 {
                     if (end != null)
                     {
-                        qry = _context.Company.Where(p => data.Contains(p.BusinessId) && p.CreationDate <= end);
+                        qry = _context.Companys.Where(p => data.Contains(p.BusinessId) && p.CreationDate <= end);
                     }
                     else
                     {
-                        qry = _context.Company.Where(p => data.Contains(p.BusinessId));
+                        qry = _context.Companys.Where(p => data.Contains(p.BusinessId));
 
                     }
                 }
@@ -116,7 +116,7 @@ namespace CRM.Controllers
                 //var qry2 = qry.Where(p => p.BusinessId == data[k]);
                 ////var qry3 = qry.Where(p => p.BusinessId == data[k]);
                 //var qry3 = qry.Where(p => p.BusinessId == "1");
-                ////IQueryable<CRM.Models.Company> union = qry.Where(p => p.BusinessId == data[k]);
+                ////IQueryable<CRM.Models.Companys> union = qry.Where(p => p.BusinessId == data[k]);
                 ////Console.WriteLine("-----");
                 //for (k = 0; k < j; k++)
                 //{
@@ -148,11 +148,11 @@ namespace CRM.Controllers
                 {
                     if (end != null)
                     {
-                        qry = _context.Company.Where(p => p.CreationDate >= start && p.CreationDate <= end);
+                        qry = _context.Companys.Where(p => p.CreationDate >= start && p.CreationDate <= end);
                     }
                     else
                     {
-                        qry = _context.Company.Where(p => p.CreationDate >= start);
+                        qry = _context.Companys.Where(p => p.CreationDate >= start);
 
                     }
                 }
@@ -160,7 +160,7 @@ namespace CRM.Controllers
                 {
                     if (end != null)
                     {
-                        qry = _context.Company.Where(p => p.CreationDate <= end);
+                        qry = _context.Companys.Where(p => p.CreationDate <= end);
                     }
                 }
             }
@@ -171,16 +171,29 @@ namespace CRM.Controllers
                 { "start", start },
                 { "end", end }
             };
-            List<Business> businessesList = _context.Business.ToList();
-            string[] businesses = new string[businessesList[businessesList.Count - 1].Id + 1];
-            var i = 1;
-            foreach (var item in businessesList)
+            List<Business> businessesList = _context.Businesses.ToList();
+            if(businessesList.Count != 0)
             {
-                i = item.Id;
-                businesses[i] = item.Name;
+                string[] businesses = new string[businessesList[businessesList.Count - 1].Id + 1];
+                var i = 1;
+                foreach (var item in businessesList)
+                {
+                    i = item.Id;
+                    businesses[i] = item.Name;
+                }
+
+                ViewBag.data = businesses;
+
             }
-            ViewBag.data = businesses;
-            List<User> usersList = _context.User.ToList();
+            else
+            {
+                var result = new Business[] { new Business { Id = 1, Name = "Электро" }, new Business { Id = 2, Name = "Био" }, new Business { Id = 3, Name = "Недвижимость" } };
+                await _context.Businesses.AddRangeAsync(result);
+                await _context.SaveChangesAsync();
+                ViewBag.data = result;
+            }
+
+            List<User> usersList = _context.Users.ToList();
             string[] users = new string[usersList[usersList.Count - 1].Id + 1];
             var j = 1;
             foreach (var item in usersList)
@@ -197,21 +210,21 @@ namespace CRM.Controllers
         [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
-            var user = await _context.User.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
             ViewBag.message = user.Id;
             if (id == null)
             {
                 return NotFound();
             }
 
-            var company = await _context.Company
+            var Companys = await _context.Companys
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (company == null)
+            if (Companys == null)
             {
                 return NotFound();
             }
             ViewBag.userId = user.Id;
-            List<Business> businessesList = _context.Business.ToList();
+            List<Business> businessesList = _context.Businesses.ToList();
             string[] businesses = new string[businessesList[businessesList.Count - 1].Id + 1];
             var i = 1;
             foreach (var item in businessesList)
@@ -220,7 +233,7 @@ namespace CRM.Controllers
                 businesses[i] = item.Name;
             }
             ViewBag.data = businesses;
-            List<User> usersList = _context.User.ToList();
+            List<User> usersList = _context.Users.ToList();
             string[] users = new string[usersList[usersList.Count - 1].Id + 1];
             var j = 1;
             foreach (var item in usersList)
@@ -229,22 +242,24 @@ namespace CRM.Controllers
                 users[j] = item.Name;
             }
             ViewBag.data2 = users;
-            return View(company);
+            return View(Companys);
         }
 
         // GET: Companies/Create
         [Authorize]
         public async Task<ActionResult> CreateAsync()
         {
-            //var model = new CompanyAndBusiness
+            //var model = new CompanysAndBusiness
             //{
             //    Business = await _context.Business.ToListAsync(),
-            //    Company = new Company(),
+            //    Companys = new Company(),
             //    User = await _context.User.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value)
             //};
-            List<Business> businessesList = _context.Business.ToList();
+            List<Business> businessesList = _context.Businesses.ToList();
             ViewBag.data = businessesList;
-            var user = await _context.User.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
+
+
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
             ViewBag.message = user.Id;
             return View();
         }
@@ -266,9 +281,9 @@ namespace CRM.Controllers
                 return RedirectToAction(nameof(Index));
                 } catch (DbUpdateException)
                 {
-                    List<Business> businessesList = _context.Business.ToList();
+                    List<Business> businessesList = _context.Businesses.ToList();
                     ViewBag.data = businessesList;
-                    var user = await _context.User.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
+                    var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
                     ViewBag.message = user.Id;
                     ModelState.AddModelError("", "NIP Is Taken");
                     return View(company);
@@ -281,15 +296,15 @@ namespace CRM.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
-            var user = await _context.User.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
-            List<Business> businessesList = _context.Business.ToList();
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
+            List<Business> businessesList = _context.Businesses.ToList();
             ViewBag.data = businessesList;
             if (id == null)
             {
                 return NotFound();
             }
 
-            var company = await _context.Company.FindAsync(id);
+            var company = await _context.Companys.FindAsync(id);
             
             if (company == null)
             {
@@ -313,7 +328,7 @@ namespace CRM.Controllers
             {
                 return NotFound();
             }
-            List<Business> businessesList = _context.Business.ToList();
+            List<Business> businessesList = _context.Businesses.ToList();
             ViewBag.data = businessesList;
 
             if (ModelState.IsValid)
@@ -348,13 +363,13 @@ namespace CRM.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
-            var user = await _context.User.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
             if (id == null)
             {
                 return NotFound();
             }
 
-            var company = await _context.Company
+            var company = await _context.Companys
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (company == null)
             {
@@ -364,7 +379,7 @@ namespace CRM.Controllers
             {
                 return NotFound();
             }
-            List<Business> businessesList = _context.Business.ToList();
+            List<Business> businessesList = _context.Businesses.ToList();
             string[] businesses = new string[100];
             var i = 1;
             foreach (var item in businessesList)
@@ -373,7 +388,7 @@ namespace CRM.Controllers
                 businesses[i] = item.Name;
             }
             ViewBag.data = businesses;
-            List<User> usersList = _context.User.ToList();
+            List<User> usersList = _context.Users.ToList();
             string[] users = new string[100];
             var j = 1;
             foreach (var item in usersList)
@@ -391,7 +406,7 @@ namespace CRM.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var company = await _context.Company.FindAsync(id);
+            var company = await _context.Companys.FindAsync(id);
 
             /*var noteNumber = await _context.Note.CountAsync(m => m.CompanyId == company.Id);
             while (noteNumber > 0)
@@ -418,7 +433,7 @@ namespace CRM.Controllers
 
         private bool CompanyExists(int id)
         {
-            return _context.Company.Any(e => e.Id == id);
+            return _context.Companys.Any(e => e.Id == id);
         }
     }
 }

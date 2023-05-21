@@ -33,7 +33,7 @@ namespace CRM.Controllers
         [Authorize]
         public async Task<IActionResult> Index(int page = 1, string sortExpression = "Id")
         {
-            var qry = _context.User.AsNoTracking().OrderBy(p => p.Id).Where(p => p.IsDeleted == 0);
+            var qry = _context.Users.AsNoTracking().OrderBy(p => p.Id).Where(p => p.IsDeleted == 0);
             var model = await PagingList.CreateAsync(qry, 6, page, sortExpression, "Id");
             string[] roles = { "Admin" , "Moderator", "User"};
             ViewBag.roles = roles;
@@ -49,7 +49,7 @@ namespace CRM.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
+            var user = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
@@ -76,7 +76,7 @@ namespace CRM.Controllers
         {
             try
             {
-                var user1 = await _context.User.AsNoTracking().FirstOrDefaultAsync(m => m.Login == user.Login);
+                var user1 = await _context.Users.AsNoTracking().FirstOrDefaultAsync(m => m.Login == user.Login);
                 if (user1 == null) { 
                     user.Password = HashPassword(user.Password);
                     user.IsDeleted = 0;
@@ -105,7 +105,7 @@ namespace CRM.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace CRM.Controllers
             {
                 return NotFound();
             }
-            var adminnumber = await _context.User.CountAsync(m => m.RoleId == 1);
+            var adminnumber = await _context.Users.CountAsync(m => m.RoleId == 1);
 
 
             //var user1 = await _context.User.FirstOrDefaultAsync(m => m.Login == user.Login);
@@ -133,7 +133,7 @@ namespace CRM.Controllers
 
             try
             {
-                var user1 = await _context.User.AsNoTracking().FirstOrDefaultAsync(m => m.Login == user.Login);
+                var user1 = await _context.Users.AsNoTracking().FirstOrDefaultAsync(m => m.Login == user.Login);
                 //var user1 = await _context.User.FirstOrDefaultAsync(m => m.Login == user.Login);
                 if (user1 == null || id == user1.Id)
                 {
@@ -222,7 +222,7 @@ namespace CRM.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
+            var user = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
@@ -239,8 +239,8 @@ namespace CRM.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
 
-            var user = await _context.User.FindAsync(id);
-            var adminnumber = await _context.User.CountAsync(m => m.RoleId == 1);
+            var user = await _context.Users.FindAsync(id);
+            var adminnumber = await _context.Users.CountAsync(m => m.RoleId == 1);
             ViewBag.Message = null;
             if (adminnumber > 2 || user.RoleId != 1) {
                 /*var companyNumber = await _context.Company.CountAsync(m => m.UserId == user.Id);
@@ -297,7 +297,7 @@ namespace CRM.Controllers
 
         private bool UserExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.Id == id);
         }
 
         public string HashPassword(string password)
