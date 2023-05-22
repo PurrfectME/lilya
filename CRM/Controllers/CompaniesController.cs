@@ -187,7 +187,7 @@ namespace CRM.Controllers
             }
             else
             {
-                var result = new Business[] { new Business { Id = 1, Name = "Электро" }, new Business { Id = 2, Name = "Био" }, new Business { Id = 3, Name = "Недвижимость" } };
+                var result = new Business[] { new Business { Id = 1, Name = "Учебное заведение" }, new Business { Id = 2, Name = "Медицина" }, new Business { Id = 3, Name = "Производство" } };
                 await _context.Businesses.AddRangeAsync(result);
                 await _context.SaveChangesAsync();
                 ViewBag.data = result;

@@ -128,7 +128,7 @@ namespace CRM.Controllers
         // GET: OrdersController/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var toDelete = await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
+            var toDelete = await _context.Orders.Include(x => x.Files).FirstOrDefaultAsync(x => x.Id == id);
 
             return View(toDelete);
         }
@@ -140,7 +140,7 @@ namespace CRM.Controllers
         {
             try
             {
-                var toDelete = await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
+                var toDelete = await _context.Orders.Include(x => x.Files).FirstOrDefaultAsync(x => x.Id == id);
                 _context.Orders.Remove(toDelete);
                 await _context.SaveChangesAsync();
 

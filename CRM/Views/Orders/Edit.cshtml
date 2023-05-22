@@ -36,7 +36,9 @@
                 {
                     @foreach (var item in Model.Files)
                     {
-                        <span class="@item.Id">@item.Filename</span><span class="@item.Id" onclick="removespan(@item.Id.ToString());">X</span>
+                        <div class="@item.Id">
+                            <span>@item.Filename</span><span onclick="removespan(@item.Id.ToString());"> | Удалить</span>
+                        </div>
                     }
                 }
 
@@ -60,6 +62,7 @@
     removespan = function(spanId) {
         var a = document.getElementsByClassName(spanId);
         console.log(a);
+        debugger;
         for (var i = 0; i < a.length; i++) {
             a[i].remove();
         }
