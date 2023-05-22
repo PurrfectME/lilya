@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CRM.Migrations
 {
-    public partial class new2 : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,7 +27,7 @@ namespace CRM.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(maxLength: 60, nullable: false),
-                    NIP = table.Column<string>(nullable: false),
+                    InnUnp = table.Column<string>(nullable: false),
                     BusinessId = table.Column<int>(nullable: false),
                     Address = table.Column<string>(maxLength: 200, nullable: false),
                     City = table.Column<string>(maxLength: 200, nullable: false),
@@ -118,7 +118,7 @@ namespace CRM.Migrations
                     Description = table.Column<string>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
-                    ClientId = table.Column<int>(nullable: true)
+                    ClientId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -128,7 +128,7 @@ namespace CRM.Migrations
                         column: x => x.ClientId,
                         principalTable: "Companys",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

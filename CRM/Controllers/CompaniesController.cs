@@ -285,7 +285,7 @@ namespace CRM.Controllers
                     ViewBag.data = businessesList;
                     var user = await _context.Users.FirstOrDefaultAsync(m => m.Login == User.FindFirst("user").Value);
                     ViewBag.message = user.Id;
-                    ModelState.AddModelError("", "NIP Is Taken");
+                    ModelState.AddModelError("", "InnUnp Is Taken");
                     return View(company);
                 }
             }
@@ -351,7 +351,7 @@ namespace CRM.Controllers
                 }
                 catch(DbUpdateException)
                 {
-                    ModelState.AddModelError("", "NIP is taken");
+                    ModelState.AddModelError("", "InnUnp is taken");
                     return View(company);
                 }
                 return RedirectToAction(nameof(Index));

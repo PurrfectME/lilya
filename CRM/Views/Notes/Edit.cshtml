@@ -1,12 +1,11 @@
-@model CRM.Models.Note
+﻿@model CRM.Models.Note
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Редактировать заметку</h1>
 
-<h4>Note</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -38,14 +37,14 @@
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-success" />
+                <input type="submit" value="Создать" class="btn btn-success" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a class="btn btn-secondary" asp-action="Index">Back to List Of Notes</a>
+    <a class="btn btn-secondary" asp-action="Index">Заметки</a>
 </div>
 
 @section Scripts {

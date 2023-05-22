@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -116,7 +116,7 @@ namespace CRM.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid Login or Password");
+                    ModelState.AddModelError("", "Неправильный логин или пароль");
                     return View(model);
                 }
             }

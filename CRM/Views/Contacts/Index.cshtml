@@ -1,18 +1,18 @@
-@model IEnumerable<CRM.Models.Contact>
+﻿@model IEnumerable<CRM.Models.Contact>
 
 @{ ViewData["Title"] = "Index"; }
 
-<h1>Contacts</h1>
+<h1>Контакты</h1>
 
 <p>
-    <a class="btn btn-primary" asp-action="Create">Create New Contact</a>
-    <a asp-action="Index" class="btn btn-danger">Clear filters</a>
+    <a class="btn btn-primary" asp-action="Create">Создать контакт</a>
+    <a asp-action="Index" class="btn btn-danger">Сбросить фильтры</a>
 </p>
 <form method="get" class="form-inline">
     <input style="margin-right:3px" name="filter" class="form-control" placeholder="Last Names Filter" value="@ViewBag.filter"/>
     <br />
     <button type="submit" class="btn btn-info">
-        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Поиск
     </button>
 </form>
 <br />
@@ -82,14 +82,14 @@
     <td>
     @if (item.UserId == ViewBag.UserId)
     {
-        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Редактировать</a>
+        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Детали</a>
+        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Удалить</a>
     }
     else
     {
 
-        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Детали</a>
         @*@item.UserId
         <span> | </span>
         @ViewBag.UserId*@

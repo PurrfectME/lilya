@@ -1,4 +1,4 @@
-@model ReflectionIT.Mvc.Paging.PagingList<CRM.Models.Company>
+﻿@model ReflectionIT.Mvc.Paging.PagingList<CRM.Models.Company>
 @using ReflectionIT.Mvc.Paging
 @addTagHelper *, ReflectionIT.Mvc.Paging
 
@@ -14,19 +14,19 @@
 
 
 
-<h1>Companies</h1>
+<h1>Компании</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New Company</a>
-    <a asp-action="Index" class="btn btn-danger">Clear filters</a>
+    <a asp-action="Create" class="btn btn-primary">Создать новую компанию</a>
+    <a asp-action="Index" class="btn btn-danger">Сбросить фильтры</a>
 </p>
 <form method="get" class="form-inline">
     @*<input style="margin-right:3px" name="filter" class="form-control" placeholder="Businesses Filter" value="@Model.RouteValue["Filter"]"
         />*@
     <br />
-    <label>From:</label>
+    <label>С:</label>
     <input max="@DateTime.Now.ToString("yyyy-MM-dd")" value="@ViewBag.start" type="date" style="margin-right:3px" id="start" name="start" class="form-control" placeholder="Businesses Filter" />
-    <label>To:</label>
+    <label>До:</label>
     <input max="@DateTime.Now.ToString("yyyy-MM-dd")" value="@ViewBag.end" type="date" style="margin-right:3px" id="end" name="end" class="form-control" placeholder="Businesses Filter" />
     <script type="text/javascript">
         document.getElementById("start").onchange = function () {
@@ -92,7 +92,7 @@
         }
     </ul>*@
     <button type="submit" class="btn btn-info" style="margin-left:10px">
-        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Поиск
     </button>
     
 </form>
@@ -107,7 +107,7 @@
                 @Html.SortableHeaderFor(model => model.Name)
             </th>
             <th width="10%">
-                @Html.SortableHeaderFor(model => model.NIP)
+                @Html.SortableHeaderFor(model => model.InnUnp)
             </th>
             <th width="11%">
                 @Html.SortableHeaderFor(model => model.BusinessId)
@@ -135,7 +135,7 @@
         @Html.DisplayFor(modelItem => item.Name)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.NIP)
+        @Html.DisplayFor(modelItem => item.InnUnp)
     </td>
     <td>
         <a asp-controller="Business" asp-action="Details" asp-route-id="@item.BusinessId">@Html.DisplayFor(modelItem => item.BusinessId) @ViewBag.data[Convert.ToInt32(item.BusinessId)]</a>
@@ -161,14 +161,14 @@
         @Convert.ToDateTime(item.CreationDate).ToString("dd.MM.yyyy")
     </td>
     <td>
-        <a asp-controller="Notes" asp-action="Create" asp-route-com="@item.Id"  class="btn btn-primary" style="margin-bottom:4px">Add Note</a>
-        <a asp-controller="Contacts" asp-action="Create" asp-route-com="@item.Id" class="btn btn-primary" style="margin-bottom:4px">Add Contact</a>
+        <a asp-controller="Notes" asp-action="Create" asp-route-com="@item.Id"  class="btn btn-primary" style="margin-bottom:4px">Добавить заметку</a>
+        <a asp-controller="Contacts" asp-action="Create" asp-route-com="@item.Id" class="btn btn-primary" style="margin-bottom:4px">Добавить контакт</a>
         <br />
         @if (item.UserId == ViewBag.UserId)
         {
-            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Редактирвоать</a>
+            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Детали</a>
+            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Удалить</a>
         } else
         {
             

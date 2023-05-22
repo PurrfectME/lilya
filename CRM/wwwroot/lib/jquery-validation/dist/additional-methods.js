@@ -782,7 +782,7 @@ $.validator.addMethod( "nifES", function( value, element ) {
 }, "Please specify a valid NIF number." );
 
 /*
- * Numer identyfikacji podatkowej ( NIP ) is the way tax identification used in Poland for companies
+ * Numer identyfikacji podatkowej ( InnUnp ) is the way tax identification used in Poland for companies
  */
 $.validator.addMethod( "nipPL", function( value ) {
 	"use strict";
@@ -802,7 +802,7 @@ $.validator.addMethod( "nipPL", function( value ) {
 	var intControlNr = ( int2 === 10 ) ? 0 : int2;
 
 	return ( intControlNr === parseInt( value[ 9 ], 10 ) );
-}, "Please specify a valid NIP number." );
+}, "Please specify a valid InnUnp number." );
 
 $.validator.addMethod( "notEqualTo", function( value, element, param ) {
 	return this.optional( element ) || !$.validator.methods.equalTo.call( this, value, element, param );

@@ -31,7 +31,7 @@ else
                 Дата создания
             </th>
             <th>
-                Файлы
+                Заказчик
             </th>
             <th></th>
         </tr>
@@ -46,11 +46,23 @@ else
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
+                 @switch (item.Status)
+            {
+                case OrderStatus.Accepted:
+                    <td>Активный</td>;
+                    break;
+                case OrderStatus.Completed:
+                    <td>Исполнен</td>;
+                    break;
+                case OrderStatus.InProgress:
+                    <td>В обработке</td>;
+                    break;
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |

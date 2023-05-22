@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace CRM.Models
@@ -8,29 +9,36 @@ namespace CRM.Models
         public int Id { get; set; }
 
         [StringLength(60, MinimumLength = 2)]
-        [Required(ErrorMessage = "Please Enter Name")]
+        [Required(ErrorMessage = "Введите имя")]
+        [DisplayName("Имя")]
         public string Name { get; set; }
 
         [StringLength(60, MinimumLength = 2)]
-        [Required(ErrorMessage = "Please Enter Surname")]
+        [Required(ErrorMessage = "Введите фамилию")]
+        [DisplayName("Фамилия")]
         public string Surname { get; set; }
 
-        [RegularExpression(@"^(\d{9})$", ErrorMessage = "Please Enter Right Phone Number")]
-        [Required(ErrorMessage = "Please Enter Phone Number")]
+        [RegularExpression(@"^(\d{12})$", ErrorMessage = "Введите номер телефона")]
+        [Required(ErrorMessage = "Введите номер телефона")]
+        [DisplayName("Телефон")]
         public string Phone { get; set; }
 
-        [RegularExpression(@"^(([^<>()[\]\\.,;:\s@""]+(\.[^<>()[\]\\.,;:\s@""]+)*)|("".+""))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$", ErrorMessage = "Please Enter Right Email")]
-        [Required(ErrorMessage = "Please Enter Email")]
+        [RegularExpression(@"^(([^<>()[\]\\.,;:\s@""]+(\.[^<>()[\]\\.,;:\s@""]+)*)|("".+""))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$", ErrorMessage = "Некорреткно")]
+        [Required(ErrorMessage = "Введите почту")]
+        [DisplayName("почта")]
         public string Email { get; set; }
 
         [StringLength(60, MinimumLength = 2)]
-        [Required(ErrorMessage = "Please Enter Position")]
+        [Required(ErrorMessage = "Введите позицию")]
+        [DisplayName("Позиция")]
         public string Position { get; set; }
 
-        [Required(ErrorMessage = "Please Enter Id Of Business")]
+        [Required(ErrorMessage = "Введите ID бизнеса")]
+        [DisplayName("Бизнес")]
         public int CompanyId { get; set; }
 
-        [Required(ErrorMessage = "Please Enter Id Of User")]
+        [Required(ErrorMessage = "Введите ID юзера")]
+        [DisplayName("ID")]
         public int UserId { get; set; }
 
         public int IsDeleted { get; set; }

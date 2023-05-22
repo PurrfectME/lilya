@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace CRM.Models
@@ -8,13 +8,16 @@ namespace CRM.Models
         public int Id { get; set; }
 
         [StringLength(500)]
-        [Required(ErrorMessage = "Please Enter Note's Content")]
+        [Required(ErrorMessage = "Введите контент")]
+        [DisplayName("Контент")]
         public string Content { get; set; }
 
-        [Required(ErrorMessage = "Please Enter Id Of Business")]
+        [Required(ErrorMessage = "Введите ID бизнеса")]
+        [DisplayName("ID бизнеса")]
         public int CompanyId { get; set; }
 
-        [Required(ErrorMessage = "Please Enter Id Of User")]
+        [Required(ErrorMessage = "Введите ID юзера")]
+        [DisplayName("ID юзера")]
         public int UserId { get; set; }
 
         public int IsDeleted { get; set; }

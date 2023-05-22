@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using pepa = System.IO;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace CRM.Controllers
 {
@@ -22,7 +23,7 @@ namespace CRM.Controllers
         // GET: OrdersController
         public async Task<IActionResult> Index()
         {
-            var result = await _context.Orders.Include(x => x.Files).ToListAsync();
+            var result = await _context.Orders.Include(x => x.Files).Include(x => x.Client).ToListAsync();
             return View(result);
         }
 
@@ -48,6 +49,9 @@ namespace CRM.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            var companiesList = _context.Companys.ToList();
+
+            ViewBag.data = companiesList;
             return View();
         }
 

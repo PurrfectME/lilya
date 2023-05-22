@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRM.Migrations
 {
     [DbContext(typeof(CRMContext))]
-    [Migration("20230521234522_new2")]
-    partial class new2
+    [Migration("20230522182648_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,12 +56,12 @@ namespace CRM.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("IsDeleted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("NIP")
+                    b.Property<string>("InnUnp")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("IsDeleted")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -150,7 +150,7 @@ namespace CRM.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Date")
@@ -250,8 +250,10 @@ namespace CRM.Migrations
             modelBuilder.Entity("CRM.Models.Order", b =>
                 {
                     b.HasOne("CRM.Models.Company", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId");
+                        .WithMany("Orders")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CRM.Models.OrderFile", b =>
