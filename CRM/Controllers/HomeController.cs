@@ -40,7 +40,7 @@ namespace CRM.Controllers
             //var user2 = await _context.User.FirstAsync(m => m.Id == 1);
             if (user == null)
             {
-                return NotFound();
+                return RedirectToAction("Login", "Accounts");
             }
             ViewBag.Name = HttpContext.Session.GetString(SessionName);
             return View(user);

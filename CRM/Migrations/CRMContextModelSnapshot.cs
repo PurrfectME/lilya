@@ -148,16 +148,16 @@ namespace CRM.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("BuyingCompanyId")
+                    b.Property<int?>("ClientId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("SellingCompanyId")
+                    b.Property<int>("Number")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Status")
@@ -165,11 +165,31 @@ namespace CRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BuyingCompanyId");
-
-                    b.HasIndex("SellingCompanyId");
+                    b.HasIndex("ClientId");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("CRM.Models.OrderFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<byte[]>("File")
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("Filename")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderFiles");
                 });
 
             modelBuilder.Entity("CRM.Models.Role", b =>
@@ -227,13 +247,18 @@ namespace CRM.Migrations
 
             modelBuilder.Entity("CRM.Models.Order", b =>
                 {
-                    b.HasOne("CRM.Models.Company", "BuyingCompany")
+                    b.HasOne("CRM.Models.Company", "Client")
                         .WithMany()
-                        .HasForeignKey("BuyingCompanyId");
+                        .HasForeignKey("ClientId");
+                });
 
-                    b.HasOne("CRM.Models.Company", "SellingCompany")
-                        .WithMany()
-                        .HasForeignKey("SellingCompanyId");
+            modelBuilder.Entity("CRM.Models.OrderFile", b =>
+                {
+                    b.HasOne("CRM.Models.Order", "Order")
+                        .WithMany("Files")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

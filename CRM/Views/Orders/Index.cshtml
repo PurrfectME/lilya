@@ -19,13 +19,19 @@ else
     <thead>
         <tr>
             <th>
-                Название заказа
+                Номер заказа
+            </th>
+            <th>
+                Описание
             </th>
             <th>
                 Статус
             </th>
             <th>
-                Дата
+                Дата создания
+            </th>
+            <th>
+                Файлы
             </th>
             <th></th>
         </tr>
@@ -35,7 +41,10 @@ else
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)

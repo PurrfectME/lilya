@@ -1,0 +1,65 @@
+﻿@model CRM.Models.Order
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Детали заказа</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Номер заказа
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Number)
+        </dd>
+        <dt class = "col-sm-2">
+            Описание
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class = "col-sm-10">
+            @switch (Model.Status)
+            {
+                case OrderStatus.Accepted:
+                    <div>Принят</div>;
+                    break;
+                case OrderStatus.Completed:
+                    <div>Исполнен</div>;
+                    break;
+                case OrderStatus.InProgress:
+                    <div>В процессе</div>;
+                    break;
+            }
+        </dd>
+        <dt class = "col-sm-2">
+            Дата создания
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt class = "col-sm-2">
+            Файлы
+        </dt>
+        <dd class = "col-sm-10">
+            @foreach (var item in Model.Files)
+            {
+                @Html.ActionLink(item.Filename, "DownloadFile", "Orders", new { fileId = item.Id }, new { @target = "_blank" });
+                <br />
+            }
+        </dd>
+
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Редактировать</a> |
+    <a asp-action="Index">Заказы</a>
+</div>

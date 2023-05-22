@@ -30,7 +30,7 @@ namespace CRM.Controllers
         //{
         //    return View(await _context.User.ToListAsync());
         //}
-        [Authorize]
+        [Authorize()]
         public async Task<IActionResult> Index(int page = 1, string sortExpression = "Id")
         {
             var qry = _context.Users.AsNoTracking().OrderBy(p => p.Id).Where(p => p.IsDeleted == 0);

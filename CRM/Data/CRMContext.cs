@@ -17,5 +17,6 @@ namespace CRM.Data
         public DbSet<Note> Notes { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderFile> OrderFiles { get; set; }
     }
 }
