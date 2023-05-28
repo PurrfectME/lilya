@@ -114,6 +114,8 @@ namespace CRM.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Naming = table.Column<string>(nullable: true),
+                    Amount = table.Column<int>(nullable: false),
                     Number = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Status = table.Column<int>(nullable: false),

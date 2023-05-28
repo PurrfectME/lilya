@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
@@ -10,11 +11,13 @@ namespace CRM.Models
         public int Id { get; set; }
 
         [StringLength(60, MinimumLength = 2)]
-        [Required(ErrorMessage = "Please Enter Name")]
+        [Required(ErrorMessage = "Введите имя")]
+        [DisplayName("Имя")]
         public string Name { get; set; }
 
         [StringLength(60, MinimumLength = 2)]
-        [Required(ErrorMessage = "Please Enter Surname")]
+        [Required(ErrorMessage = "Введите фамилию")]
+        [DisplayName("Фамилия")]
         public string Surname { get; set; }
 
         [DataType(DataType.Date)]
@@ -22,19 +25,23 @@ namespace CRM.Models
         //ErrorMessage = "Value for {0} must be between {1} and {2}")]
         //[CustomDateRange(ErrorMessage = "wrong")]
         //[Date(ErrorMessage = "wrong")]
-        [Required(ErrorMessage = "Please Enter Date Of Birth")]
+        [Required(ErrorMessage = "Введите дату рождения")]
+        [DisplayName("Дата рождения")]
         public DateTime DateOfBirth { get; set; }
 
         [StringLength(60, MinimumLength = 3)]
-        [Required(ErrorMessage = "Please Enter Login")]
+        [Required(ErrorMessage = "Введите логин")]
+        [DisplayName("Логин")]
         public string Login { get; set; }
 
         [DataType(DataType.Password)]
-        [Required(ErrorMessage = "Please Enter Password")]
+        [Required(ErrorMessage = "Введите пароль")]
+        [DisplayName("Пароль")]
         public string Password { get; set; }
 
         [Range(1,3)]
-        [Required(ErrorMessage = "Please Enter Id Of Role")]
+        [Required(ErrorMessage = "Выберите роль")]
+        [DisplayName("Роль")]
         public int RoleId { get; set; }
 
         public int IsDeleted { get; set; }

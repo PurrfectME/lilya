@@ -6,6 +6,8 @@ namespace CRM.Models
     public class Order
     {
         public int Id { get; set; }
+        public string Naming { get; set; }
+        public int Amount { get; set; }
         public int Number { get; set; }
         public string Description { get; set; }
         public OrderStatus Status { get; set; }

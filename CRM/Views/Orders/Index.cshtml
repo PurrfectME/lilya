@@ -19,10 +19,16 @@ else
     <thead>
         <tr>
             <th>
+                №
+            </th>
+            <th>
                 Номер заказа
             </th>
             <th>
-                Описание
+                Наименование
+            </th>
+            <th>
+                Кол-во
             </th>
             <th>
                 Статус
@@ -41,12 +47,18 @@ else
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Number)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.Naming)
             </td>
-                 @switch (item.Status)
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            @switch (item.Status)
             {
                 case OrderStatus.Accepted:
                     <td>Активный</td>;
